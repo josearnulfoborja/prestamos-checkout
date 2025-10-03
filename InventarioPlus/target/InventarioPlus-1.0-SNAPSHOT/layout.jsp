@@ -22,6 +22,11 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/estilos.css">
     
+    <!-- Ruta alternativa para depuración -->
+    <c:if test="${not empty debugCSS}">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/${debugCSS}">
+    </c:if>
+    
     <!-- CSS adicional específico de página -->
     <c:if test="${not empty additionalCSS}">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/${additionalCSS}">
