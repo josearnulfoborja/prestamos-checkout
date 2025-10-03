@@ -27,7 +27,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/${additionalCSS}">
     </c:if>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Botón Toggle Sidebar -->
     <button class="btn btn-primary btn-toggle-sidebar d-md-none" id="toggleSidebar">
         <i class="fas fa-bars"></i>
@@ -110,7 +110,7 @@
     </div>
 
     <!-- Main Content -->
-    <div class="main-content" id="mainContent">
+    <div class="main-content flex-grow-1 d-flex flex-column" id="mainContent">
         <!-- Top Navigation -->
         <nav class="navbar navbar-expand-lg navbar-custom">
             <div class="container-fluid">
@@ -140,7 +140,7 @@
         </nav>
 
         <!-- Page Content -->
-        <main class="container-fluid py-4">
+        <main class="container-fluid py-4 flex-grow-1">
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb" class="mb-4">
                 <ol class="breadcrumb">

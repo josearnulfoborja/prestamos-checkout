@@ -17,6 +17,12 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Asegurar que el HTML también tenga altura completa */
+html {
+    height: 100%;
 }
 
 /* ================================================
@@ -86,6 +92,8 @@ body {
     margin-left: var(--sidebar-width);
     transition: margin-left 0.3s ease;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .main-content.expanded {
@@ -107,6 +115,7 @@ body {
     background: linear-gradient(135deg, var(--primary-color), #34495e);
     color: white;
     margin-top: auto;
+    flex-shrink: 0;
 }
 
 /* ================================================
