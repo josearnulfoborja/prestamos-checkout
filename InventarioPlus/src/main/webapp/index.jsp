@@ -1,5 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page session="true" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<% request.setCharacterEncoding("UTF-8"); response.setCharacterEncoding("UTF-8"); %>
+<%-- <%@ page session="true" %> --%>
 <%
     /**
      * Página principal que redirige al usuario según su estado de sesión.
@@ -18,5 +19,5 @@
         response.sendRedirect("login.jsp");
     }*/
 
-    response.sendRedirect("dashboard.jsp");
+    response.sendRedirect("layout.jsp");
 %>

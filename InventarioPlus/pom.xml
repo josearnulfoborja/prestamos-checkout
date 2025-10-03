@@ -7,15 +7,20 @@
     <packaging>war</packaging>
     <name>InventarioPlus-1.0-SNAPSHOT</name>
     
+    <!-- 
+        Propiedades del proyecto - variables reutilizables en todo el POM 
+    -->
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+        <!-- Codificación de caracteres para todos los archivos fuente -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <failOnMissingWebXml>false</failOnMissingWebXml>
+        
+        <!-- Versión de Jakarta EE - define la versión del estándar empresarial -->
         <jakartaee>10.0.0</jakartaee>
     </properties>
     
+    <!-- 
+        Dependencias del proyecto - librerías externas requeridas
+    -->
     <dependencies>
         <!-- 
             Jakarta EE API - Especificaciones del estándar empresarial
@@ -58,7 +63,7 @@
             <artifactId>jakarta.el</artifactId>
             <version>4.0.2</version>
         </dependency>
-
+        
         <!-- 
             MySQL Connector - Driver JDBC para conectar con base de datos MySQL
             Versión actualizada del conector oficial de MySQL
@@ -70,52 +75,38 @@
         </dependency>
     </dependencies>
     
-     <build>
+    <!-- 
+        Configuración de construcción del proyecto
+    -->
+    <build>
+        <!-- 
+            Plugins de Maven - herramientas que ejecutan tareas específicas
+        -->
         <plugins>
+            <!-- 
+                Maven Compiler Plugin - Compila el código fuente Java
+                Configura la versión de Java para compilación
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.8.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <compilerArguments>
-                        <endorseddirs>${endorsed.dir}</endorseddirs>
-                    </compilerArguments>
+                    <!-- Versión de Java para el código fuente -->
+                    <source>17</source>
+                    <!-- Versión de Java para los archivos compilados -->
+                    <target>17</target>
                 </configuration>
             </plugin>
+            
+            <!-- 
+                Maven WAR Plugin - Empaqueta la aplicación como archivo WAR
+                Configura cómo se genera el archivo WAR para deployment
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.4.0</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.6</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${endorsed.dir}</outputDirectory>
-                            <silent>true</silent>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>jakarta.platform</groupId>
-                                    <artifactId>jakarta.jakartaee-api</artifactId>
-                                    <version>${jakartaee}</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

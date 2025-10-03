@@ -1,203 +1,380 @@
 /**
- * InventarioPlus - JavaScript del Layout Principal
+ * ================================================
+ * SISTEMA DE GESTIÓN DE PRÉSTAMOS DE EQUIPOS
+ * Layout JavaScript - Funcionalidades principales
+ * ================================================
  */
 
-// Esperar a que el DOM esté cargado
+// Esperar a que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
     initializeLayout();
 });
 
 /**
- * Inicializar funcionalidades del layout
+ * Inicializar todas las funcionalidades del layout
  */
 function initializeLayout() {
-    initSidebarToggle();
-    initCurrentDate();
-    initSmoothScrolling();
-    initAutoHideAlerts();
-    initAnimations();
+    initializeSidebarToggle();
+    initializeAlerts();
+    initializeFormLoadingStates();
+    initializeTooltips();
+    initializeNotifications();
 }
 
 /**
- * Funcionalidad del toggle del sidebar
+ * ================================================
+ * SIDEBAR FUNCTIONALITY
+ * ================================================
  */
-function initSidebarToggle() {
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    const sidebar = document.getElementById('sidebar');
-    
-    if (sidebarToggle && sidebar) {
-        // Toggle del sidebar
-        sidebarToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('show');
-        });
-        
-        // Cerrar sidebar al hacer clic fuera en móvil
-        document.addEventListener('click', function(event) {
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(event.target) && !sidebarToggle.contains(event.target)) {
-                    sidebar.classList.remove('show');
-                }
+
+/**
+ * Inicializar toggle del sidebar
+ */
+function initializeSidebarToggle() {
+    // Toggle para móvil
+    const toggleMobile = document.getElementById('toggleSidebar');
+    if (toggleMobile) {
+        toggleMobile.addEventListener('click', function() {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                sidebar.classList.toggle('show');
             }
         });
-        
-        // Cerrar sidebar al cambiar tamaño de ventana
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
+    }
+    
+    // Toggle para escritorio
+    const toggleDesktop = document.getElementById('toggleSidebarDesktop');
+    if (toggleDesktop) {
+        toggleDesktop.addEventListener('click', function() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            
+            if (sidebar && mainContent) {
+                sidebar.classList.toggle('collapsed');
+                mainContent.classList.toggle('expanded');
+                
+                // Guardar estado en localStorage
+                const isCollapsed = sidebar.classList.contains('collapsed');
+                localStorage.setItem('sidebarCollapsed', isCollapsed);
+            }
+        });
+    }
+    
+    // Restablecer estado del sidebar desde localStorage
+    restoreSidebarState();
+    
+    // Cerrar sidebar al hacer click fuera (solo móvil)
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768) {
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.getElementById('toggleSidebar');
+            
+            if (sidebar && toggleBtn && 
+                !sidebar.contains(e.target) && 
+                !toggleBtn.contains(e.target) &&
+                sidebar.classList.contains('show')) {
                 sidebar.classList.remove('show');
             }
-        });
-    }
-}
-
-/**
- * Actualizar fecha actual en el header
- */
-function initCurrentDate() {
-    updateCurrentDate();
-    // Actualizar cada minuto
-    setInterval(updateCurrentDate, 60000);
-}
-
-function updateCurrentDate() {
-    const dateElement = document.getElementById('currentDate');
-    if (dateElement) {
-        const now = new Date();
-        const options = { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric',
-            weekday: 'long'
-        };
-        dateElement.textContent = now.toLocaleDateString('es-ES', options);
-    }
-}
-
-/**
- * Scroll suave para enlaces anchor
- */
-function initSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
-        });
+        }
     });
 }
 
 /**
- * Auto-ocultar alertas después de 5 segundos
+ * Restaurar estado del sidebar desde localStorage
  */
-function initAutoHideAlerts() {
+function restoreSidebarState() {
+    const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    
+    if (isCollapsed && window.innerWidth > 768) {
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        
+        if (sidebar && mainContent) {
+            sidebar.classList.add('collapsed');
+            mainContent.classList.add('expanded');
+        }
+    }
+}
+
+/**
+ * ================================================
+ * ALERTS MANAGEMENT
+ * ================================================
+ */
+
+/**
+ * Inicializar manejo automático de alertas
+ */
+function initializeAlerts() {
+    // Auto-ocultar alertas después de 5 segundos
     setTimeout(function() {
         const alerts = document.querySelectorAll('.alert');
         alerts.forEach(function(alert) {
-            if (bootstrap && bootstrap.Alert) {
+            if (window.bootstrap && window.bootstrap.Alert) {
                 const bsAlert = new bootstrap.Alert(alert);
                 bsAlert.close();
+            } else {
+                // Fallback si Bootstrap no está disponible
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 300);
             }
         });
     }, 5000);
 }
 
 /**
- * Inicializar animaciones de entrada
+ * Mostrar alerta personalizada
+ * @param {string} message - Mensaje de la alerta
+ * @param {string} type - Tipo de alerta (success, danger, warning, info)
+ * @param {number} duration - Duración en milisegundos (opcional)
  */
-function initAnimations() {
-    // Animación de entrada para cards
-    const cards = document.querySelectorAll('.card');
-    cards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        
+function showAlert(message, type = 'info', duration = 5000) {
+    const alertContainer = document.querySelector('.content-wrapper') || document.querySelector('main');
+    
+    if (!alertContainer) return;
+    
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.setAttribute('role', 'alert');
+    
+    const icon = getAlertIcon(type);
+    
+    alertDiv.innerHTML = `
+        <i class="${icon} me-2"></i>
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    
+    alertContainer.insertBefore(alertDiv, alertContainer.firstChild);
+    
+    // Auto-ocultar después del tiempo especificado
+    if (duration > 0) {
         setTimeout(() => {
-            card.style.transition = 'all 0.5s ease';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, 100 + (index * 100));
+            if (alertDiv.parentNode) {
+                const bsAlert = new bootstrap.Alert(alertDiv);
+                bsAlert.close();
+            }
+        }, duration);
+    }
+}
+
+/**
+ * Obtener icono según tipo de alerta
+ * @param {string} type - Tipo de alerta
+ * @returns {string} - Clase del icono
+ */
+function getAlertIcon(type) {
+    const icons = {
+        'success': 'fas fa-check-circle',
+        'danger': 'fas fa-exclamation-circle',
+        'warning': 'fas fa-exclamation-triangle',
+        'info': 'fas fa-info-circle'
+    };
+    return icons[type] || icons['info'];
+}
+
+/**
+ * ================================================
+ * FORM LOADING STATES
+ * ================================================
+ */
+
+/**
+ * Inicializar estados de carga en formularios
+ */
+function initializeFormLoadingStates() {
+    document.querySelectorAll('form').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (submitBtn && !submitBtn.disabled) {
+                setButtonLoading(submitBtn, true);
+                
+                // Opcional: validar formulario antes de enviar
+                if (!validateForm(form)) {
+                    e.preventDefault();
+                    setButtonLoading(submitBtn, false);
+                    return false;
+                }
+            }
+        });
     });
 }
 
 /**
- * Utilidades generales
+ * Establecer estado de carga en un botón
+ * @param {HTMLElement} button - Elemento botón
+ * @param {boolean} loading - Estado de carga
  */
-const LayoutUtils = {
-    /**
-     * Mostrar notificación toast
-     */
-    showToast: function(message, type = 'info') {
-        // Crear elemento toast
-        const toast = document.createElement('div');
-        toast.className = `toast align-items-center text-white bg-${type} border-0`;
-        toast.setAttribute('role', 'alert');
-        toast.innerHTML = `
-            <div class="d-flex">
-                <div class="toast-body">
-                    ${message}
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-        `;
-        
-        // Agregar al container de toasts
-        let toastContainer = document.getElementById('toast-container');
-        if (!toastContainer) {
-            toastContainer = document.createElement('div');
-            toastContainer.id = 'toast-container';
-            toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
-            document.body.appendChild(toastContainer);
-        }
-        
-        toastContainer.appendChild(toast);
-        
-        // Mostrar toast
-        if (bootstrap && bootstrap.Toast) {
-            const bsToast = new bootstrap.Toast(toast);
-            bsToast.show();
-            
-            // Remover del DOM después de ocultarse
-            toast.addEventListener('hidden.bs.toast', () => {
-                toast.remove();
-            });
-        }
-    },
+function setButtonLoading(button, loading) {
+    if (!button) return;
     
-    /**
-     * Confirmar acción con modal
-     */
-    confirmAction: function(message, callback) {
-        if (confirm(message)) {
+    if (loading) {
+        button.dataset.originalText = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Procesando...';
+        button.disabled = true;
+    } else {
+        button.innerHTML = button.dataset.originalText || button.innerHTML;
+        button.disabled = false;
+    }
+}
+
+/**
+ * Validación básica de formularios
+ * @param {HTMLElement} form - Formulario a validar
+ * @returns {boolean} - True si es válido
+ */
+function validateForm(form) {
+    const requiredFields = form.querySelectorAll('[required]');
+    let isValid = true;
+    
+    requiredFields.forEach(function(field) {
+        if (!field.value.trim()) {
+            field.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            field.classList.remove('is-invalid');
+        }
+    });
+    
+    if (!isValid) {
+        showAlert('Por favor, complete todos los campos requeridos.', 'warning');
+    }
+    
+    return isValid;
+}
+
+/**
+ * ================================================
+ * TOOLTIPS AND POPOVERS
+ * ================================================
+ */
+
+/**
+ * Inicializar tooltips de Bootstrap
+ */
+function initializeTooltips() {
+    if (window.bootstrap && window.bootstrap.Tooltip) {
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => 
+            new bootstrap.Tooltip(tooltipTriggerEl)
+        );
+    }
+}
+
+/**
+ * ================================================
+ * NOTIFICATIONS
+ * ================================================
+ */
+
+/**
+ * Inicializar sistema de notificaciones
+ */
+function initializeNotifications() {
+    // Simular notificaciones en tiempo real
+    // En un entorno real, esto se conectaría con WebSockets o SSE
+    updateNotificationBadge();
+}
+
+/**
+ * Actualizar badge de notificaciones
+ */
+function updateNotificationBadge() {
+    // Esta función se llamaría desde el servidor o mediante AJAX
+    // Por ahora es solo una demostración
+    const badge = document.querySelector('.navbar-nav .badge');
+    if (badge) {
+        // Simular actualización de notificaciones
+        // badge.textContent = newNotificationCount;
+    }
+}
+
+/**
+ * ================================================
+ * UTILITY FUNCTIONS
+ * ================================================
+ */
+
+/**
+ * Confirmar acción con modal
+ * @param {string} message - Mensaje de confirmación
+ * @param {Function} callback - Función a ejecutar si se confirma
+ */
+function confirmAction(message, callback) {
+    if (confirm(message)) {
+        if (typeof callback === 'function') {
             callback();
         }
-    },
+    }
+}
+
+/**
+ * Formatear fecha para mostrar
+ * @param {Date} date - Fecha a formatear
+ * @returns {string} - Fecha formateada
+ */
+function formatDate(date) {
+    if (!(date instanceof Date)) {
+        date = new Date(date);
+    }
     
-    /**
-     * Mostrar/ocultar loading spinner
-     */
-    toggleLoading: function(show = true) {
-        let spinner = document.getElementById('global-spinner');
-        
-        if (show && !spinner) {
-            spinner = document.createElement('div');
-            spinner.id = 'global-spinner';
-            spinner.className = 'position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center';
-            spinner.style.backgroundColor = 'rgba(0,0,0,0.5)';
-            spinner.style.zIndex = '9999';
-            spinner.innerHTML = `
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Cargando...</span>
-                </div>
-            `;
-            document.body.appendChild(spinner);
-        } else if (!show && spinner) {
-            spinner.remove();
+    return date.toLocaleDateString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+}
+
+/**
+ * Copiar texto al portapapeles
+ * @param {string} text - Texto a copiar
+ */
+function copyToClipboard(text) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+            showAlert('Texto copiado al portapapeles', 'success', 2000);
+        });
+    } else {
+        // Fallback para navegadores más antiguos
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showAlert('Texto copiado al portapapeles', 'success', 2000);
+    }
+}
+
+/**
+ * ================================================
+ * RESPONSIVE HANDLING
+ * ================================================
+ */
+
+// Manejar cambios de tamaño de ventana
+window.addEventListener('resize', function() {
+    // Restaurar sidebar en escritorio si estaba colapsado
+    if (window.innerWidth > 768) {
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar && sidebar.classList.contains('show')) {
+            sidebar.classList.remove('show');
         }
     }
-};
+});
 
-// Hacer LayoutUtils disponible globalmente
-window.LayoutUtils = LayoutUtils;
+/**
+ * ================================================
+ * GLOBAL EXPORTS (para uso desde otros archivos)
+ * ================================================
+ */
+
+// Hacer funciones disponibles globalmente
+window.LayoutManager = {
+    showAlert,
+    setButtonLoading,
+    confirmAction,
+    formatDate,
+    copyToClipboard,
+    validateForm
+};
