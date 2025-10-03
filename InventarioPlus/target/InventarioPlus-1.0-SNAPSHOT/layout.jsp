@@ -1,9 +1,12 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<% request.setCharacterEncoding("UTF-8"); response.setCharacterEncoding("UTF-8"); %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${pageTitle != null ? pageTitle : 'Sistema de Gestión de Préstamos de Equipos'}</title>
     
@@ -35,9 +38,9 @@
         <div class="sidebar-brand">
             <h4 class="text-white mb-0">
                 <i class="fas fa-tools text-warning me-2"></i>
-                Gestión de Préstamos
+                PrestaEquipos
             </h4>
-            <small class="text-light">Sistema de Equipos</small>
+            <small class="text-light">Sistema de Préstamos</small>
         </div>
         
         <ul class="sidebar-menu mt-3">

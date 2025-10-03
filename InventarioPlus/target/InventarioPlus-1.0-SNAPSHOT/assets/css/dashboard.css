@@ -1,177 +1,89 @@
-/* ================================================
-   DASHBOARD STYLES
-   Estilos específicos para el dashboard
-   ================================================ */
+/* InventarioPlus - Estilos del Dashboard */
 
-/* Timeline estilos */
-.timeline {
+/* Cards de estadísticas */
+.border-left-primary {
+    border-left: 4px solid var(--primary-color) !important;
+}
+
+.border-left-success {
+    border-left: 4px solid var(--success-color) !important;
+}
+
+.border-left-warning {
+    border-left: 4px solid var(--warning-color) !important;
+}
+
+.border-left-info {
+    border-left: 4px solid var(--info-color) !important;
+}
+
+.text-xs {
+    font-size: 0.75rem;
+}
+
+.font-weight-bold {
+    font-weight: 700 !important;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.text-gray-800 {
+    color: #5a5c69 !important;
+}
+
+/* Gráficos */
+.chart-area {
     position: relative;
-    padding-left: 30px;
-}
-
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 15px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: #dee2e6;
-}
-
-.timeline-item {
-    position: relative;
-    margin-bottom: 30px;
-}
-
-.timeline-marker {
-    position: absolute;
-    left: -37px;
-    top: 5px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 2px solid #fff;
-    box-shadow: 0 0 0 3px #dee2e6;
-}
-
-.timeline-title {
-    font-weight: 600;
-    margin-bottom: 5px;
-    color: var(--primary-color);
-}
-
-.timeline-description {
-    margin-bottom: 5px;
-    color: #6c757d;
-    line-height: 1.4;
-}
-
-.timeline-time {
-    font-size: 0.875rem;
-    color: #adb5bd;
-}
-
-/* Mejoras para métricas */
-.metric-card {
-    transition: all 0.3s ease;
-    border: 1px solid rgba(0,0,0,0.05);
-}
-
-.metric-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-}
-
-.metric-value {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 700;
-}
-
-/* Estilos para gráficos */
-.chart-container {
-    position: relative;
-    height: 300px;
-}
-
-.chart-container canvas {
-    max-height: 100%;
-}
-
-/* Alertas del dashboard */
-.dashboard-alert {
-    border-left: 4px solid;
-    border-radius: 0 8px 8px 0;
-    background: rgba(255,255,255,0.9);
-    backdrop-filter: blur(10px);
-}
-
-.dashboard-alert.alert-warning {
-    border-left-color: var(--warning-color);
-}
-
-.dashboard-alert.alert-info {
-    border-left-color: var(--secondary-color);
-}
-
-.dashboard-alert.alert-success {
-    border-left-color: var(--success-color);
-}
-
-/* Botones de acción rápida */
-.quick-action-btn {
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-    position: relative;
-    overflow: hidden;
-}
-
-.quick-action-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
+    height: 320px;
     width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s;
 }
 
-.quick-action-btn:hover::before {
-    left: 100%;
+.chart-pie {
+    position: relative;
+    height: 320px;
+    width: 100%;
 }
 
-.quick-action-btn:hover {
-    transform: translateY(-2px);
-    border-color: currentColor;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+/* Tabla de productos recientes */
+#dataTable {
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
-/* Actividad reciente mejorada */
-.activity-card {
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+#dataTable thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
 }
 
-.activity-item {
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-    transition: all 0.3s ease;
-    border-left: 3px solid transparent;
+#dataTable tbody tr {
+    transition: background-color 0.15s ease-in-out;
 }
 
-.activity-item:hover {
-    background-color: rgba(52, 152, 219, 0.05);
-    border-left-color: var(--secondary-color);
-    transform: translateX(5px);
+#dataTable tbody tr:hover {
+    background-color: rgba(0,123,255,.075);
 }
 
-/* Responsive mejoras */
-@media (max-width: 768px) {
-    .timeline {
-        padding-left: 20px;
-    }
-    
-    .timeline::before {
-        left: 10px;
-    }
-    
-    .timeline-marker {
-        left: -32px;
-        width: 10px;
-        height: 10px;
-    }
-    
-    .metric-card .card-body {
-        padding: 1rem;
-    }
-    
-    .quick-action-btn {
-        margin-bottom: 0.5rem;
-    }
+/* Badges personalizados */
+.badge {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
 }
 
-/* Animaciones adicionales */
+/* Botones de acción en tabla */
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    border-radius: 0.2rem;
+}
+
+/* Animaciones para el dashboard */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -183,57 +95,17 @@
     }
 }
 
-.fade-in-up {
-    animation: fadeInUp 0.6s ease-out;
+.card {
+    animation: fadeInUp 0.5s ease-out;
 }
 
-.fade-in-up-delayed {
-    animation: fadeInUp 0.6s ease-out 0.2s both;
-}
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
 
-/* Indicadores de estado */
-.status-indicator {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    margin-right: 8px;
-}
-
-.status-indicator.online {
-    background-color: var(--success-color);
-    box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.3);
-}
-
-.status-indicator.offline {
-    background-color: var(--danger-color);
-    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.3);
-}
-
-.status-indicator.maintenance {
-    background-color: var(--warning-color);
-    box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.3);
-}
-
-/* Mejoras de accesibilidad */
-.metric-card:focus,
-.quick-action-btn:focus {
-    outline: 2px solid var(--secondary-color);
-    outline-offset: 2px;
-}
-
-/* Loading states */
-.loading-skeleton {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-    background-size: 200% 100%;
-    animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-    0% {
-        background-position: 200% 0;
-    }
-    100% {
-        background-position: -200% 0;
-    }
-}
+/* Colores de texto para estadísticas */
+.text-primary { color: var(--primary-color) !important; }
+.text-success { color: var(--success-color) !important; }
+.text-warning { color: var(--warning-color) !important; }
+.text-info { color: var(--info-color) !important; }

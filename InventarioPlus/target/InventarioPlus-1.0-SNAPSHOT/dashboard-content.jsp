@@ -1,287 +1,63 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- Cards de estadísticas - Sistema de Préstamos -->
+<div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2" style="border-left: 4px solid var(--primary-color);">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Préstamos Activos</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">23</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-handshake fa-2x text-primary"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<!-- Contenido del Dashboard -->
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <!-- Header del Dashboard -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h1 class="h2 text-primary-custom">
-                        <i class="fas fa-tachometer-alt me-2"></i>
-                        Dashboard
-                    </h1>
-                    <p class="text-muted">Panel de control del sistema de gestión de préstamos</p>
-                </div>
-                <div>
-                    <button class="btn btn-primary-custom" onclick="actualizarDatos()">
-                        <i class="fas fa-sync-alt me-1"></i>
-                        Actualizar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Métricas principales -->
-    <div class="row mb-4">
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card metric-card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-users metric-icon text-primary"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <div class="metric-value text-primary" id="metric-clientes">25</div>
-                            <div class="metric-label">Clientes Activos</div>
-                        </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2" style="border-left: 4px solid var(--success-color);">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Ingresos del Mes</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$48,320</div>
                     </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card metric-card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-cogs metric-icon text-success"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <div class="metric-value text-success" id="metric-equipos">48</div>
-                            <div class="metric-label">Equipos Disponibles</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card metric-card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-handshake metric-icon text-warning"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <div class="metric-value text-warning" id="metric-prestamos">37</div>
-                            <div class="metric-label">Total Préstamos Activos</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card metric-card">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-clock metric-icon text-danger"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <div class="metric-value text-danger" id="metric-vencimientos">3</div>
-                            <div class="metric-label">Próximos Vencimientos</div>
-                        </div>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-success"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- Gráficos principales -->
-    <div class="row mb-4">
-        <!-- Equipos más usados (gráfico de barras) -->
-        <div class="col-lg-8">
-            <div class="card card-custom">
-                <div class="card-header card-header-custom">
-                    <h5 class="mb-0">
-                        <i class="fas fa-chart-bar me-2"></i>
-                        Equipos Más Usados
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="equiposMasUsadosChart" height="100"></canvas>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Préstamos aprobados vs rechazados (gráfico circular) -->
-        <div class="col-lg-4">
-            <div class="card card-custom">
-                <div class="card-header card-header-custom">
-                    <h5 class="mb-0">
-                        <i class="fas fa-chart-pie me-2"></i>
-                        Préstamos: Aprobados vs Rechazados
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="prestamosAprobadosChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Gráficos adicionales -->
-    <div class="row mb-4">
-        <div class="col-lg-8">
-            <div class="card card-custom">
-                <div class="card-header card-header-custom">
-                    <h5 class="mb-0">
-                        <i class="fas fa-chart-line me-2"></i>
-                        Préstamos por Mes
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="prestamosChart" height="100"></canvas>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-lg-4">
-            <div class="card card-custom">
-                <div class="card-header card-header-custom">
-                    <h5 class="mb-0">
-                        <i class="fas fa-chart-doughnut me-2"></i>
-                        Estados de Equipos
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="equiposChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Acciones rápidas -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card card-custom">
-                <div class="card-header card-header-custom">
-                    <h5 class="mb-0">
-                        <i class="fas fa-bolt me-2"></i>
-                        Acciones Rápidas
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <% String rol = (String) session.getAttribute("rol"); %>
-                        
-                        <% if ("ADMIN".equals(rol) || "EVALUADOR".equals(rol)) { %>
-                        <div class="col-md-3 mb-2">
-                            <a href="clientes.jsp" class="btn btn-outline-primary w-100 quick-action-btn">
-                                <i class="fas fa-user-plus me-2"></i>
-                                Nuevo Cliente
-                            </a>
-                        </div>
-                        <div class="col-md-3 mb-2">
-                            <a href="equipos.jsp" class="btn btn-outline-success w-100 quick-action-btn">
-                                <i class="fas fa-plus-circle me-2"></i>
-                                Agregar Equipo
-                            </a>
-                        </div>
-                        <% } %>
-                        
-                        <div class="col-md-3 mb-2">
-                            <a href="prestamos.jsp" class="btn btn-outline-warning w-100">
-                                <i class="fas fa-handshake me-2"></i>
-                                Nuevo Préstamo
-                            </a>
-                        </div>
-                        
-                        <% if ("EVALUADOR".equals(rol)) { %>
-                        <div class="col-md-3 mb-2">
-                            <a href="evaluaciones.jsp" class="btn btn-outline-info w-100">
-                                <i class="fas fa-clipboard-check me-2"></i>
-                                Evaluaciones
-                            </a>
-                        </div>
-                        <% } %>
-                        
-                        <% if ("ADMIN".equals(rol)) { %>
-                        <div class="col-md-3 mb-2">
-                            <a href="reportes.jsp" class="btn btn-outline-secondary w-100">
-                                <i class="fas fa-chart-bar me-2"></i>
-                                Reportes
-                            </a>
-                        </div>
-                        <% } %>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2" style="border-left: 4px solid var(--warning-color);">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Equipos en Mantenimiento</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">7</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-tools fa-2x text-warning"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- Actividad reciente -->
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="card card-custom">
-                <div class="card-header card-header-custom">
-                    <h5 class="mb-0">
-                        <i class="fas fa-history me-2"></i>
-                        Actividad Reciente
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-marker bg-success"></div>
-                            <div class="timeline-content">
-                                <h6 class="timeline-title">Préstamo Aprobado</h6>
-                                <p class="timeline-description">Préstamo #001 aprobado para Cliente Juan Pérez</p>
-                                <small class="text-muted">Hace 2 horas</small>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-item">
-                            <div class="timeline-marker bg-info"></div>
-                            <div class="timeline-content">
-                                <h6 class="timeline-title">Nuevo Cliente Registrado</h6>
-                                <p class="timeline-description">Cliente María González agregada al sistema</p>
-                                <small class="text-muted">Hace 4 horas</small>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-item">
-                            <div class="timeline-marker bg-warning"></div>
-                            <div class="timeline-content">
-                                <h6 class="timeline-title">Equipo en Mantenimiento</h6>
-                                <p class="timeline-description">Taladro Industrial #TI-001 enviado a mantenimiento</p>
-                                <small class="text-muted">Hace 1 día</small>
-                            </div>
-                        </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2" style="border-left: 4px solid var(--info-color);">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Equipos</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">142</div>
                     </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-lg-4">
-            <div class="card card-custom">
-                <div class="card-header card-header-custom">
-                    <h5 class="mb-0">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
-                        Alertas Pendientes
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="alert alert-warning dashboard-alert" role="alert">
-                        <i class="fas fa-clock me-2"></i>
-                        <strong>3 préstamos</strong> vencen esta semana
-                        <span class="status-indicator maintenance"></span>
-                    </div>
-                    
-                    <div class="alert alert-info dashboard-alert" role="alert">
-                        <i class="fas fa-wrench me-2"></i>
-                        <strong>2 equipos</strong> requieren mantenimiento
-                        <span class="status-indicator maintenance"></span>
-                    </div>
-                    
-                    <div class="alert alert-success dashboard-alert" role="alert">
-                        <i class="fas fa-check me-2"></i>
-                        Sistema operando normalmente
-                        <span class="status-indicator online"></span>
+                    <div class="col-auto">
+                        <i class="fas fa-cogs fa-2x text-info"></i>
                     </div>
                 </div>
             </div>
@@ -289,223 +65,369 @@
     </div>
 </div>
 
+<!-- Row de gráficos -->
+<div class="row">
+    <!-- Gráfico de préstamos mensuales -->
+    <div class="col-xl-8 col-lg-7">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Préstamos por Mes</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow">
+                        <a class="dropdown-item" href="#">Ver detalles</a>
+                        <a class="dropdown-item" href="#">Exportar reporte</a>
+                        <a class="dropdown-item" href="#">Configurar alertas</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="prestamosChart" width="100%" height="320"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Gráfico circular de estados de préstamos -->
+    <div class="col-xl-4 col-lg-5">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Estados de Préstamos</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-pie pt-4 pb-2">
+                    <canvas id="estadosChart" width="100%" height="320"></canvas>
+                </div>
+                <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-success"></i> Aprobados
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-warning"></i> Pendientes
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-danger"></i> Rechazados
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-info"></i> Finalizados
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Row de equipos más solicitados y préstamos recientes -->
+<div class="row">
+    <!-- Tabla de equipos más solicitados -->
+    <div class="col-xl-6 col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <i class="fas fa-trophy"></i> Equipos Más Solicitados
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Equipo</th>
+                                <th>Préstamos</th>
+                                <th>Ingresos</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-hammer text-primary"></i>
+                                    <strong>Taladro Industrial HD-500</strong>
+                                </td>
+                                <td><span class="badge bg-primary">18</span></td>
+                                <td>$2,340</td>
+                                <td><span class="badge bg-success">Disponible</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-truck text-warning"></i>
+                                    <strong>Grúa Telescópica GT-25</strong>
+                                </td>
+                                <td><span class="badge bg-primary">12</span></td>
+                                <td>$8,400</td>
+                                <td><span class="badge bg-info">En Préstamo</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-cut text-danger"></i>
+                                    <strong>Sierra Circular SC-2000</strong>
+                                </td>
+                                <td><span class="badge bg-primary">15</span></td>
+                                <td>$1,890</td>
+                                <td><span class="badge bg-warning">Mantenimiento</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-cog text-info"></i>
+                                    <strong>Compresor de Aire CA-100</strong>
+                                </td>
+                                <td><span class="badge bg-primary">10</span></td>
+                                <td>$1,200</td>
+                                <td><span class="badge bg-success">Disponible</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de préstamos recientes -->
+    <div class="col-xl-6 col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <i class="fas fa-clock"></i> Préstamos Recientes
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Equipo</th>
+                                <th>Fecha Entrega</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>María González</td>
+                                <td>Taladro Industrial</td>
+                                <td>02/10/2025</td>
+                                <td><span class="badge bg-warning">Pendiente</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary" title="Ver detalles">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-success" title="Aprobar">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Carlos Ruiz</td>
+                                <td>Grúa Telescópica</td>
+                                <td>01/10/2025</td>
+                                <td><span class="badge bg-success">Aprobado</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary" title="Ver detalles">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-info" title="Entregar">
+                                        <i class="fas fa-handshake"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Ana López</td>
+                                <td>Sierra Circular</td>
+                                <td>30/09/2025</td>
+                                <td><span class="badge bg-info">En Curso</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary" title="Ver detalles">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-warning" title="Recibir">
+                                        <i class="fas fa-undo"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>José Martínez</td>
+                                <td>Compresor</td>
+                                <td>29/09/2025</td>
+                                <td><span class="badge bg-secondary">Finalizado</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary" title="Ver detalles">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-success" title="Completado">
+                                        <i class="fas fa-check-circle"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alertas y notificaciones -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <i class="fas fa-bell"></i> Alertas y Notificaciones
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="alert alert-warning" role="alert">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <strong>¡Atención!</strong> 3 equipos requieren mantenimiento preventivo esta semana.
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="alert alert-info" role="alert">
+                            <i class="fas fa-calendar-alt"></i>
+                            <strong>Recordatorio:</strong> 5 préstamos vencen mañana.
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="alert alert-success" role="alert">
+                            <i class="fas fa-chart-line"></i>
+                            <strong>¡Excelente!</strong> Ingresos del mes superan la meta en 15%.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts adicionales para los gráficos -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-// Inicializar gráficos
-document.addEventListener('DOMContentLoaded', function() {
-    // Inicializar todos los gráficos del dashboard
-    initEquiposMasUsadosChart();
-    initPrestamosAprobadosChart();
-    initPrestamosChart();
-    initEquiposChart();
+// Gráfico de líneas para préstamos mensuales
+const ctxPrestamos = document.getElementById('prestamosChart').getContext('2d');
+const prestamosChart = new Chart(ctxPrestamos, {
+    type: 'line',
+    data: {
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        datasets: [
+            {
+                label: 'Préstamos Solicitados',
+                data: [45, 52, 38, 67, 73, 89, 95, 78, 85, 92, 88, 76],
+                backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                borderColor: 'rgba(13, 110, 253, 1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+            },
+            {
+                label: 'Préstamos Aprobados',
+                data: [38, 45, 32, 58, 65, 78, 82, 68, 75, 81, 76, 68],
+                backgroundColor: 'rgba(25, 135, 84, 0.1)',
+                borderColor: 'rgba(25, 135, 84, 1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Tendencia de Préstamos por Mes'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 10
+                }
+            }
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index'
+        }
+    }
 });
 
-function initPrestamosChart() {
-    const ctx = document.getElementById('prestamosChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
-            datasets: [{
-                label: 'Préstamos',
-                data: [12, 19, 15, 25, 22, 30],
-                borderColor: 'rgb(52, 152, 219)',
-                backgroundColor: 'rgba(52, 152, 219, 0.1)',
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
+// Gráfico circular para estados de préstamos
+const ctxEstados = document.getElementById('estadosChart').getContext('2d');
+const estadosChart = new Chart(ctxEstados, {
+    type: 'doughnut',
+    data: {
+        labels: ['Aprobados', 'Pendientes', 'Rechazados', 'Finalizados'],
+        datasets: [{
+            data: [45, 23, 8, 67],
+            backgroundColor: [
+                'rgba(25, 135, 84, 0.8)',    // Verde para aprobados
+                'rgba(255, 193, 7, 0.8)',    // Amarillo para pendientes
+                'rgba(220, 53, 69, 0.8)',    // Rojo para rechazados
+                'rgba(13, 202, 240, 0.8)'    // Azul para finalizados
+            ],
+            borderColor: [
+                'rgba(25, 135, 84, 1)',
+                'rgba(255, 193, 7, 1)',
+                'rgba(220, 53, 69, 1)',
+                'rgba(13, 202, 240, 1)'
+            ],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
             },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-}
-
-function initEquiposChart() {
-    const ctx = document.getElementById('equiposChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Disponibles', 'En Préstamo', 'Mantenimiento'],
-            datasets: [{
-                data: [48, 12, 5],
-                backgroundColor: [
-                    '#27ae60',
-                    '#f39c12',
-                    '#e74c3c'
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }
-    });
-}
-
-// Gráfico de Equipos Más Usados (Barras Horizontales)
-function initEquiposMasUsadosChart() {
-    const ctx = document.getElementById('equiposMasUsadosChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Laptops Dell', 'Proyectores Epson', 'Tablets iPad', 'Cámaras Canon', 'Micrófonos Shure', 'Switches Cisco'],
-            datasets: [{
-                label: 'Veces Prestado',
-                data: [45, 32, 28, 25, 18, 15],
-                backgroundColor: [
-                    '#3498db',
-                    '#2ecc71',
-                    '#f39c12',
-                    '#9b59b6',
-                    '#e74c3c',
-                    '#1abc9c'
-                ],
-                borderColor: [
-                    '#2980b9',
-                    '#27ae60',
-                    '#e67e22',
-                    '#8e44ad',
-                    '#c0392b',
-                    '#16a085'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            indexAxis: 'y', // Barras horizontales
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return context.parsed.x + ' préstamos';
-                        }
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Número de Préstamos'
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Equipos'
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const label = context.label;
+                        const value = context.parsed;
+                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                        const percentage = ((value / total) * 100).toFixed(1);
+                        return `${label}: ${value} (${percentage}%)`;
                     }
                 }
             }
         }
+    }
+});
+
+// Funciones adicionales para el dashboard
+function actualizarEstadisticas() {
+    // Simular actualización de datos en tiempo real
+    // En una implementación real, esto haría una llamada AJAX al servidor
+    console.log('Actualizando estadísticas del dashboard...');
+}
+
+// Actualizar estadísticas cada 5 minutos
+setInterval(actualizarEstadisticas, 300000);
+
+// Función para filtrar datos por fecha
+function filtrarPorFecha(periodo) {
+    console.log('Filtrando datos por período:', periodo);
+    // Aquí se implementaría la lógica para filtrar los gráficos
+}
+
+// Event listeners para interactividad
+document.addEventListener('DOMContentLoaded', function() {
+    // Agregar tooltips a los elementos
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
     });
-}
-
-// Gráfico de Préstamos Aprobados vs Rechazados (Circular)
-function initPrestamosAprobadosChart() {
-    const ctx = document.getElementById('prestamosAprobadosChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: ['Aprobados', 'Rechazados', 'Pendientes'],
-            datasets: [{
-                data: [78, 12, 10],
-                backgroundColor: [
-                    '#27ae60', // Verde para aprobados
-                    '#e74c3c', // Rojo para rechazados
-                    '#f39c12'  // Amarillo para pendientes
-                ],
-                borderColor: [
-                    '#229954',
-                    '#cb4335',
-                    '#d68910'
-                ],
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        padding: 15,
-                        usePointStyle: true
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                            const percentage = ((context.parsed / total) * 100).toFixed(1);
-                            return context.label + ': ' + context.parsed + ' (' + percentage + '%)';
-                        }
-                    }
-                }
-            }
-        }
-    });
-}
-
-function actualizarDatos() {
-    LayoutManager.showAlert('Datos actualizados correctamente', 'success', 3000);
-    // Aquí se haría la llamada AJAX para actualizar los datos reales
     
-    // Simular actualización de métricas
-    setTimeout(() => {
-        // Actualizar números de las tarjetas con una pequeña animación
-        animateMetricValue('metric-clientes', 25, 27);
-        animateMetricValue('metric-equipos', 48, 50);
-        animateMetricValue('metric-prestamos', 37, 39);
-        animateMetricValue('metric-vencimientos', 3, 2);
-    }, 500);
-}
-
-// Función para animar cambios en métricas
-function animateMetricValue(elementId, fromValue, toValue) {
-    const element = document.getElementById(elementId);
-    if (!element) return;
-    
-    const duration = 1000;
-    const steps = 20;
-    const stepValue = (toValue - fromValue) / steps;
-    const stepTime = duration / steps;
-    
-    let currentValue = fromValue;
-    let step = 0;
-    
-    const interval = setInterval(() => {
-        step++;
-        currentValue += stepValue;
-        element.textContent = Math.round(currentValue);
-        
-        if (step >= steps) {
-            clearInterval(interval);
-            element.textContent = toValue;
-        }
-    }, stepTime);
-}
+    console.log('Dashboard de Préstamos de Equipos cargado correctamente');
+});
 </script>
