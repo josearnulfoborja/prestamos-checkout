@@ -13,15 +13,60 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
-        <jakartaee>8.0.0</jakartaee>
+        <jakartaee>10.0.0</jakartaee>
     </properties>
     
     <dependencies>
+        <!-- 
+            Jakarta EE API - Especificaciones del estándar empresarial
+            Scope 'provided' = el servidor de aplicaciones ya incluye estas APIs
+            No se empaqueta en el WAR final
+        -->
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
             <version>${jakartaee}</version>
             <scope>provided</scope>
+        </dependency>
+        
+        <!-- 
+            JSTL API - Definición de interfaces para JSP Standard Tag Library
+            Contiene las definiciones de etiquetas como <c:if>, <c:forEach>
+        -->
+        <dependency>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        
+        <!-- 
+            JSTL Implementation - Implementación concreta de las etiquetas JSTL
+            Glassfish proporciona la implementación real de las etiquetas
+        -->
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+        
+        <!-- 
+            Jakarta Expression Language - Motor de evaluación de expresiones
+            Permite usar expresiones como ${variable} en JSPs
+        -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.el</artifactId>
+            <version>4.0.2</version>
+        </dependency>
+
+        <!-- 
+            MySQL Connector - Driver JDBC para conectar con base de datos MySQL
+            Versión actualizada del conector oficial de MySQL
+        -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.0.33</version>
         </dependency>
     </dependencies>
     
