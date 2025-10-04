@@ -21,6 +21,8 @@ CREATE TABLE Cliente (
     activo BOOLEAN DEFAULT TRUE
 );
 
+
+
 -- ================================================
 -- TABLA ESPECIALISTA
 -- ================================================
@@ -66,11 +68,19 @@ CREATE TABLE Usuario (
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     nombre VARCHAR(100),
-    correo VARCHAR(100),
-    rol ENUM('ADMIN', 'EVALUADOR', 'CLIENTE') NOT NULL,
-    fechaCreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    correo VARCHAR(100) UNIQUE,
+    rol ENUM('ADMIN','EVALUADOR','CLIENTE') NOT NULL,
+    estado ENUM('ACTIVO','INACTIVO') DEFAULT 'ACTIVO',
     ultimoAcceso TIMESTAMP,
-    activo BOOLEAN DEFAULT TRUE
+    intentos_fallidos INT DEFAULT 0,
+    activo BOOLEAN DEFAULT TRUE,
+    fechaCreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Usuario (
+    ultimo_login DATETIME NULL,
+    intentos_fallidos INT DEFAULT 0,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ================================================
