@@ -73,6 +73,18 @@
             <artifactId>mysql-connector-j</artifactId>
             <version>8.0.33</version>
         </dependency>
+        
+        <!-- 
+            Servlet API - API de Servlets
+            Scope 'provided' = el servidor de aplicaciones ya incluye esta API
+            No se empaqueta en el WAR final
+        -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     
     <!-- 

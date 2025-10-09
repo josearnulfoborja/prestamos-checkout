@@ -1,3 +1,10 @@
 C:\Users\PC\Documents\GitHub\prestamos-checkout\InventarioPlus\src\main\java\com\mycompany\inventarioplus\resources\JakartaEE10Resource.java
 C:\Users\PC\Documents\GitHub\prestamos-checkout\InventarioPlus\src\main\java\com\mycompany\inventarioplus\JakartaRestConfiguration.java
+C:\Users\PC\Documents\GitHub\prestamos-checkout\InventarioPlus\src\main\java\com\mycompany\inventarioplus\dao\EquipoDAO.java
 C:\Users\PC\Documents\GitHub\prestamos-checkout\InventarioPlus\src\main\java\com\mycompany\inventarioplus\filters\UTF8EncodingFilter.java
+C:\Users\PC\Documents\GitHub\prestamos-checkout\InventarioPlus\src\main\java\com\mycompany\inventarioplus\model\Cliente.java
+C:\Users\PC\Documents\GitHub\prestamos-checkout\InventarioPlus\src\main\java\com\mycompany\inventarioplus\servlet\EquipoServlet.java
+C:\Users\PC\Documents\GitHub\prestamos-checkout\InventarioPlus\src\main\java\com\mycompany\inventarioplus\util\Conexion.java
+C:\Users\PC\Documents\GitHub\prestamos-checkout\InventarioPlus\src\main\java\com\mycompany\inventarioplus\model\Equipo.java
+C:\Users\PC\Documents\GitHub\prestamos-checkout\InventarioPlus\src\main\java\com\mycompany\inventarioplus\servlet\ClienteServlet.java
+C:\Users\PC\Documents\GitHub\prestamos-checkout\InventarioPlus\src\main\java\com\mycompany\inventarioplus\dao\ClienteDAO.java
